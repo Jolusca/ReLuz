@@ -5,16 +5,19 @@ export default function GraphScreen() {
   const [tempAtual, setTempAtual] = useState('--');
   const [tempMax, setTempMax] = useState('--');
   const [tempMin, setTempMin] = useState('--');
-  const [tempAmanha, setTempAmanha] = useState('--');       // ✅ NOVO
-  const [chuvaAmanha, setChuvaAmanha] = useState('--');     // ✅ NOVO
+  const [tempAmanha, setTempAmanha] = useState('--');
+  const [chuvaAmanha, setChuvaAmanha] = useState('--');
 
   const API_KEY = '13ac4b1c5519f53c5a8b9e9d3527ff8c'; // Substitua por sua chave da OpenWeather
   const cidade = 'Fortaleza';
 
+
+  const boxColors = ['#FFAD00', '#FFC341', '#FFC341', '#FEDE97']; 
+  // Ordem: Atual, Máxima, Mínima, Amanhã
+
   useEffect(() => {
     async function fetchTemperaturas() {
       try {
-        // Chamada atual
         const res = await fetch(
           `https://api.openweathermap.org/data/2.5/weather?q=${cidade},BR&units=metric&appid=${API_KEY}`
         );
@@ -24,7 +27,6 @@ export default function GraphScreen() {
         setTempMax(dados.main.temp_max.toFixed(1));
         setTempMin(dados.main.temp_min.toFixed(1));
 
-        // ✅ NOVA chamada para previsão do tempo (amanhã)
         const amanha = new Date();
         amanha.setDate(amanha.getDate() + 1);
         const diaAmanha = amanha.getDate();
@@ -55,24 +57,23 @@ export default function GraphScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={[styles.box, styles.boxLarge]}>
+      <View style={[styles.box, styles.boxLarge, { backgroundColor: boxColors[0] }]}>
         <Text style={styles.text}>Temperatura Atual</Text>
         <Text style={styles.value}>{tempAtual}°C</Text>
       </View>
 
-      <View style={styles.row}>
-        <View style={styles.box}>
-          <Text style={styles.text}>Máxima</Text>
-          <Text style={styles.value}>{tempMax}°C</Text>
+    <View style={styles.row}>
+          <View style={[styles.box, styles.boxMedium, { backgroundColor: boxColors[1] }]}>
+            <Text style={styles.text}>Máxima</Text>
+            <Text style={styles.value}>{tempMax}°C</Text>
+          </View>
+          <View style={[styles.box, styles.boxMedium, { backgroundColor: boxColors[2] }]}>
+            <Text style={styles.text}>Mínima</Text>
+            <Text style={styles.value}>{tempMin}°C</Text>
+          </View>
         </View>
-        <View style={styles.box}>
-          <Text style={styles.text}>Mínima</Text>
-          <Text style={styles.value}>{tempMin}°C</Text>
-        </View>
-      </View>
 
-      {/* ✅ NOVO BLOCO - previsão de amanhã */}
-      <View style={[styles.box, { marginTop: 16 }]}>
+      <View style={[styles.box, { marginTop: 16, backgroundColor: boxColors[3] }]}>
         <Text style={styles.text}>Amanhã</Text>
         <Text style={styles.value}>{tempAmanha}°C</Text>
         <Text style={styles.text}>Chuva: {chuvaAmanha}%</Text>
@@ -82,7 +83,6 @@ export default function GraphScreen() {
 }
 
 const styles = StyleSheet.create({
-  
   container: {
     flex: 1,
     backgroundColor: '#000',
@@ -95,16 +95,18 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   box: {
-    backgroundColor: '#FDBF00',
     flex: 1,
-    borderRadius: 20,
+    borderRadius:30,
     padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 4,
+    marginHorizontal: 10,
   },
   boxLarge: {
     height: 140,
+  },
+  boxMedium: {
+    height: 300, // ou o valor que quiser
   },
   text: {
     fontSize: 16,
