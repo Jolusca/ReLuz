@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Hello-World",
-    "slug": "Hello-World",
+    "name": "ReLuz",
+    "slug": "reluz",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "helloworld",
+    "scheme": "reluz",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
