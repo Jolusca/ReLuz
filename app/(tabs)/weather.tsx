@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Platform, Dimensions, ScrollView } from 'react-native';
 
-export default function GraphScreen() {
+const { height: screenHeight } = Dimensions.get('window');
+
+// Tamanhos ajustáveis para os cards
+const CARD_LARGE_HEIGHT = screenHeight * 0.25; // 25% da altura da tela
+const CARD_SMALL_HEIGHT = screenHeight * 0.15; // 15% da altura da tela
+
+export default function WeatherScreen() {
   const [tempAtual, setTempAtual] = useState('--');
   const [tempMax, setTempMax] = useState('--');
   const [tempMin, setTempMin] = useState('--');
   const [tempAmanha, setTempAmanha] = useState('--');
   const [chuvaAmanha, setChuvaAmanha] = useState('--');
 
-  const API_KEY = '13ac4b1c5519f53c5a8b9e9d3527ff8c'; // Substitua por sua chave da OpenWeather
+  const API_KEY = '13ac4b1c5519f53c5a8b9e9d3527ff8c';
   const cidade = 'Fortaleza';
-
-
-  const boxColors = ['#FFAD00', '#FFC341', '#FFC341', '#FEDE97']; 
-  // Ordem: Atual, Máxima, Mínima, Amanhã
 
   useEffect(() => {
     async function fetchTemperaturas() {
@@ -57,27 +59,44 @@ export default function GraphScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={[styles.box, styles.boxLarge, { backgroundColor: boxColors[0] }]}>
-        <Text style={styles.text}>Temperatura Atual</Text>
-        <Text style={styles.value}>{tempAtual}°C</Text>
-      </View>
+      <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>CLIMA ATUAL</Text>
+        </View>
 
-    <View style={styles.row}>
-          <View style={[styles.box, styles.boxMedium, { backgroundColor: boxColors[1] }]}>
-            <Text style={styles.text}>Máxima</Text>
-            <Text style={styles.value}>{tempMax}°C</Text>
-          </View>
-          <View style={[styles.box, styles.boxMedium, { backgroundColor: boxColors[2] }]}>
-            <Text style={styles.text}>Mínima</Text>
-            <Text style={styles.value}>{tempMin}°C</Text>
+        {/* Temperatura Atual */}
+        <View style={styles.shadowWrapper}>
+          <View style={[styles.card, { minHeight: CARD_LARGE_HEIGHT }]}>
+            <Text style={styles.cardTitle}>Temperatura Atual</Text>
+            <Text style={styles.cardValue}>{tempAtual}°C</Text>
           </View>
         </View>
 
-      <View style={[styles.box, { marginTop: 16, backgroundColor: boxColors[3] }]}>
-        <Text style={styles.text}>Amanhã</Text>
-        <Text style={styles.value}>{tempAmanha}°C</Text>
-        <Text style={styles.text}>Chuva: {chuvaAmanha}%</Text>
-      </View>
+        {/* Máxima e Mínima */}
+        <View style={styles.row}>
+          <View style={styles.shadowWrapper}>
+            <View style={[styles.cardSmall, { minHeight: CARD_SMALL_HEIGHT }]}>
+              <Text style={styles.cardTitle}>Máxima</Text>
+              <Text style={styles.cardValue}>{tempMax}°C</Text>
+            </View>
+          </View>
+          <View style={styles.shadowWrapper}>
+            <View style={[styles.cardSmall, { minHeight: CARD_SMALL_HEIGHT }]}>
+              <Text style={styles.cardTitle}>Mínima</Text>
+              <Text style={styles.cardValue}>{tempMin}°C</Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Amanhã */}
+        <View style={styles.shadowWrapper}>
+          <View style={[styles.card, { minHeight: CARD_LARGE_HEIGHT }]}>
+            <Text style={styles.cardTitle}>Amanhã</Text>
+            <Text style={styles.cardValue}>{tempAmanha}°C</Text>
+            <Text style={styles.cardSubtitle}>Chuva: {chuvaAmanha}%</Text>
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -86,38 +105,74 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
-    padding: 16,
-    justifyContent: 'center',
+    paddingHorizontal: 16,
+    paddingTop: 40,
+  },
+  header: {
+    backgroundColor: '#0A0D10',
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderRadius: 16,
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  headerText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 16,
+    gap: 10,
+    marginTop: 10,
+    marginBottom: 10,
   },
-  box: {
-    flex: 1,
-    borderRadius:30,
+  shadowWrapper: {
+    borderRadius: 20,
+    marginBottom: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(255, 179, 0, 0.6)',
+        shadowOffset: { width: 0, height: 12 },
+        shadowOpacity: 0.6,
+        shadowRadius: 25,
+      },
+      android: {
+        elevation: 15,
+      },
+    }),
+  },
+  card: {
+    backgroundColor: '#0A0D10',
+    borderRadius: 20,
     padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 10,
   },
-  boxLarge: {
-    height: 140,
+  cardSmall: {
+    backgroundColor: '#0A0D10',
+    borderRadius: 20,
+    padding: 20,
+    alignItems: 'center',
+    width: Dimensions.get('window').width / 2 - 28,
+    justifyContent: 'center',
   },
-  boxMedium: {
-    height: 300, // ou o valor que quiser
-  },
-  text: {
+  cardTitle: {
+    color: '#fff',
     fontSize: 16,
-    color: '#000',
     fontWeight: '600',
+    marginBottom: 8,
     textAlign: 'center',
   },
-  value: {
+  cardValue: {
+    color: '#fff',
     fontSize: 24,
     fontWeight: 'bold',
-    marginTop: 10,
-    color: '#000',
+  },
+  cardSubtitle: {
+    color: '#ccc',
+    fontSize: 14,
+    marginTop: 8,
   },
 });
