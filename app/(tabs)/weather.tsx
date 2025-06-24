@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, Platform, Dimensions, ScrollView } from 'react-native';
 
-const { height: screenHeight } = Dimensions.get('window');
+const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
 
-// Tamanhos ajustáveis para os cards
-const CARD_LARGE_HEIGHT = screenHeight * 0.25; // 25% da altura da tela
-const CARD_SMALL_HEIGHT = screenHeight * 0.15; // 15% da altura da tela
+// Alturas ajustadas
+const CARD_LARGE_HEIGHT = screenHeight * 0.2;
+const CARD_SMALL_HEIGHT = screenHeight * 0.12;
 
 export default function WeatherScreen() {
   const [tempAtual, setTempAtual] = useState('--');
@@ -59,7 +59,7 @@ export default function WeatherScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
         <View style={styles.header}>
           <Text style={styles.headerText}>CLIMA ATUAL</Text>
         </View>
@@ -106,15 +106,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
     paddingHorizontal: 16,
-    paddingTop: 40,
+    paddingTop: 36,
   },
   header: {
     backgroundColor: '#0A0D10',
-    paddingVertical: 14,
+    paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 16,
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 16,
   },
   headerText: {
     color: '#fff',
@@ -125,21 +125,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: 10,
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 8,
+    marginBottom: 8,
   },
   shadowWrapper: {
     borderRadius: 20,
-    marginBottom: 10,
+    marginBottom: 8,
     ...Platform.select({
       ios: {
         shadowColor: 'rgba(255, 179, 0, 0.6)',
-        shadowOffset: { width: 0, height: 12 },
+        shadowOffset: { width: 0, height: 10 },
         shadowOpacity: 0.6,
-        shadowRadius: 25,
+        shadowRadius: 20,
       },
       android: {
-        elevation: 15,
+        elevation: 12,
       },
     }),
   },
@@ -153,26 +153,26 @@ const styles = StyleSheet.create({
   cardSmall: {
     backgroundColor: '#0A0D10',
     borderRadius: 20,
-    padding: 20,
+    padding: 16,
     alignItems: 'center',
-    width: Dimensions.get('window').width / 2 - 28,
+    width: screenWidth / 2 - 28,
     justifyContent: 'center',
   },
   cardTitle: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
-    marginBottom: 8,
+    marginBottom: 6,
     textAlign: 'center',
   },
   cardValue: {
     color: '#fff',
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: 'bold',
   },
   cardSubtitle: {
     color: '#ccc',
     fontSize: 14,
-    marginTop: 8,
+    marginTop: 6,
   },
 });

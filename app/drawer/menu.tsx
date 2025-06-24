@@ -34,7 +34,7 @@ export default function MenuScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>MENU</Text>
+        <Text style={styles.headerText}>Menu</Text>
       </View>
 
       <View style={styles.buttonContainer}>
@@ -48,7 +48,7 @@ export default function MenuScreen() {
               style={[
                 styles.shadowWrapper,
                 {
-                  flex: isActive ? 3 : isShrunk ? 1 : 1,
+                  flex: isActive ? 2 : isShrunk ? 0.8 : 1,
                 },
               ]}
             >
@@ -84,62 +84,63 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
     paddingHorizontal: 16,
-    paddingTop: 40,
-    paddingBottom: 20,
+    paddingTop: 32,
+    paddingBottom: 12,
   },
   header: {
     backgroundColor: '#0A0D10',
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    borderRadius: 16,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 12,
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 16,
   },
   headerText: {
-    color: '#ccc',
-    fontWeight: 'bold',
-    fontSize: 18,
-    fontFamily: 'System', // Altere aqui o nome da fonte se desejar
+    color: '#aaa',
+    fontWeight: '600',
+    fontSize: 14,
+    fontFamily: 'System',
   },
   buttonContainer: {
     flex: 1,
     justifyContent: 'space-between',
   },
   shadowWrapper: {
-    borderRadius: 30,
-    marginBottom: 16,
+    borderRadius: 24,
+    marginBottom: 12,
     ...Platform.select({
       ios: {
-        shadowColor: 'rgba(255, 179, 0, 0.5)',
-        shadowOffset: { width: 0, height: 12 },
-        shadowOpacity: 0.6,
-        shadowRadius: 24,
+        shadowColor: 'rgba(255, 179, 0, 0.4)',
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.5,
+        shadowRadius: 18,
       },
       android: {
-        elevation: 10,
+        elevation: 8,
       },
     }),
   },
   button: {
-    borderRadius: 30,
+    borderRadius: 24,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingVertical: 8,
     flex: 1,
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#ccc',
     fontWeight: 'bold',
-    fontFamily: 'System', // Altere aqui também se quiser usar outra fonte
+    fontFamily: 'System',
+    textAlign: 'center',
   },
   input: {
-    marginTop: 12,
+    marginTop: 10,
     backgroundColor: '#fff',
-    borderRadius: 10,
+    borderRadius: 8,
     width: '90%',
-    padding: 10,
+    padding: 8,
     color: '#000',
   },
 });

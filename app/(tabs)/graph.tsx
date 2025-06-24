@@ -1,8 +1,7 @@
-// app/(tabs)/graph.tsx
-
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Platform } from 'react-native';
 import { useNavigation } from 'expo-router';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -11,6 +10,8 @@ export default function GraphScreen() {
 
   return (
     <View style={styles.container}>
+
+
       {/* Título no topo */}
       <View style={styles.header}>
         <Text style={styles.headerText}>ACOMPANHAMENTO ENERGÉTICO</Text>
@@ -54,6 +55,17 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 16,
   },
+  /*
+  drawerButton: {
+    position: 'absolute',
+    top: 40,
+    left: 16,
+    zIndex: 10,
+    backgroundColor: '#1c1c1c',
+    padding: 10,
+    borderRadius: 10,
+  },
+  */
   header: {
     backgroundColor: '#0A0D10',
     paddingVertical: 14,
@@ -61,6 +73,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     alignItems: 'center',
     marginBottom: 20,
+    marginTop: 50, // Deixa espaço para o botão do drawer
   },
   headerText: {
     color: '#fff',
@@ -72,13 +85,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     ...Platform.select({
       ios: {
-        shadowColor: 'rgba(255, 179, 0, 0.8)', // amarelo forte
-        shadowOffset: { width: 0, height: 20 }, // sombra embaixo
+        shadowColor: 'rgba(255, 179, 0, 0.8)',
+        shadowOffset: { width: 0, height: 20 },
         shadowOpacity: 0.7,
         shadowRadius: 30,
       },
       android: {
-        elevation: 15, // simulação de brilho para Android
+        elevation: 15,
       },
     }),
   },

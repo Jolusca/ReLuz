@@ -1,3 +1,4 @@
+// app/(tabs)/_layout.tsx
 import { Tabs } from 'expo-router';
 import { View, TouchableOpacity, Text } from 'react-native';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
@@ -43,15 +44,12 @@ export default function TabLayout() {
               }
             };
 
-            // Ícone correspondente à rota
             const getIconName = () => {
               switch (route.name) {
                 case 'graph':
                   return 'solar-panel';
                 case 'weather':
                   return 'cloud-sun-rain';
-                case 'menu':
-                  return 'bars';
                 default:
                   return 'circle';
               }
@@ -92,7 +90,6 @@ export default function TabLayout() {
     >
       <Tabs.Screen name="graph" options={{ title: 'Gráficos' }} />
       <Tabs.Screen name="weather" options={{ title: 'Clima' }} />
-      <Tabs.Screen name="menu" options={{ title: 'Menu' }} />
     </Tabs>
   );
 }
