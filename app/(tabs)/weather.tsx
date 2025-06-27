@@ -11,8 +11,8 @@ import {
 
 const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
 
-const CARD_LARGE_HEIGHT = screenHeight * 0.25;
-const CARD_SMALL_HEIGHT = screenHeight * 0.15;
+const CARD_LARGE_HEIGHT = screenHeight * 0.24;
+const CARD_SMALL_HEIGHT = screenHeight * 0.14;
 
 export default function WeatherScreen() {
   const [tempAmanha, setTempAmanha] = useState('--');
