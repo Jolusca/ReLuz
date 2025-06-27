@@ -1,33 +1,44 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, Platform, Dimensions, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  Platform,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
 
-const { height: screenHeight } = Dimensions.get('window');
+const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
 
-// Tamanhos ajustáveis para os cards
-const CARD_LARGE_HEIGHT = screenHeight * 0.25; // 25% da altura da tela
-const CARD_SMALL_HEIGHT = screenHeight * 0.15; // 15% da altura da tela
+const CARD_LARGE_HEIGHT = screenHeight * 0.25;
+const CARD_SMALL_HEIGHT = screenHeight * 0.15;
 
 export default function WeatherScreen() {
-  const [tempAtual, setTempAtual] = useState('--');
-  const [tempMax, setTempMax] = useState('--');
-  const [tempMin, setTempMin] = useState('--');
   const [tempAmanha, setTempAmanha] = useState('--');
   const [chuvaAmanha, setChuvaAmanha] = useState('--');
+  const [nuvens, setNuvens] = useState('--');
+  const [indiceUV, setIndiceUV] = useState('--');
 
   const API_KEY = '13ac4b1c5519f53c5a8b9e9d3527ff8c';
   const cidade = 'Fortaleza';
 
   useEffect(() => {
-    async function fetchTemperaturas() {
+    async function fetchClimaSolar() {
       try {
         const res = await fetch(
           `https://api.openweathermap.org/data/2.5/weather?q=${cidade},BR&units=metric&appid=${API_KEY}`
         );
         const dados = await res.json();
 
-        setTempAtual(dados.main.temp.toFixed(1));
-        setTempMax(dados.main.temp_max.toFixed(1));
-        setTempMin(dados.main.temp_min.toFixed(1));
+        setNuvens(dados.clouds.all.toFixed(0));
+
+        const { lat, lon } = dados.coord;
+        const resUV = await fetch(
+          `https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+        );
+        const dadosUV = await resUV.json();
+        setIndiceUV(dadosUV.value.toFixed(1));
 
         const amanha = new Date();
         amanha.setDate(amanha.getDate() + 1);
@@ -54,48 +65,102 @@ export default function WeatherScreen() {
       }
     }
 
-    fetchTemperaturas();
+    fetchClimaSolar();
   }, []);
+
+  // Pega hora local
+  const agora = new Date();
+  const hora = agora.getHours();
+
+  // Se estiver entre 7 e 18h mostra índice UV, senão mostra 0 e texto "Sem radiação solar"
+  const uvValue = (hora >= 7 && hora <= 18) ? parseFloat(indiceUV) : 0;
+  const uvDisplayText = (hora >= 7 && hora <= 18) ? indiceUV : '0';
+
+  const uvBarWidth = Math.min(uvValue / 11, 1) * (screenWidth - 100);
+
+  const getUVColor = (uv: number) => {
+    if (uv <= 2) return '#2ECC71'; // verde
+    if (uv <= 5) return '#F1C40F'; // amarelo
+    if (uv <= 7) return '#E67E22'; // laranja
+    return '#E74C3C'; // vermelho
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
         <View style={styles.header}>
-          <Text style={styles.headerText}>CLIMA ATUAL</Text>
+          <Text style={styles.headerText}>Clima e Potencial Solar</Text>
         </View>
 
-        {/* Temperatura Atual */}
+        {/* Nível de Geração Solar */}
         <View style={styles.shadowWrapper}>
           <View style={[styles.card, { minHeight: CARD_LARGE_HEIGHT }]}>
-            <Text style={styles.cardTitle}>Temperatura Atual</Text>
-            <Text style={styles.cardValue}>{tempAtual}°C</Text>
+            <Text style={styles.cardTitle}>Nível de Geração Solar (UV)</Text>
+            <Text style={[styles.cardValue, { color: getUVColor(uvValue) }]}>
+              {uvDisplayText}
+            </Text>
+            <View style={styles.uvBarBackground}>
+              <View
+                style={[
+                  styles.uvBar,
+                  {
+                    width: uvBarWidth,
+                    backgroundColor: getUVColor(uvValue),
+                  },
+                ]}
+              />
+            </View>
+            <Text style={styles.cardSubtitle}>
+              {uvValue === 0
+                ? 'Descanso noturno — sem UV 😴'
+                : `Nível: ${
+                    uvValue <= 2
+                      ? 'Mínimo ☁️'
+                      : uvValue <= 5
+                      ? 'Médio 🌤️'
+                      : uvValue <= 8
+                      ? 'Alto ☀️'
+                      : 'Máximo 🔆'
+                  }`}
+            </Text>
           </View>
         </View>
 
-        {/* Máxima e Mínima */}
+        {/* Nuvens e Chuva */}
         <View style={styles.row}>
           <View style={styles.shadowWrapper}>
             <View style={[styles.cardSmall, { minHeight: CARD_SMALL_HEIGHT }]}>
-              <Text style={styles.cardTitle}>Máxima</Text>
-              <Text style={styles.cardValue}>{tempMax}°C</Text>
+              <Text style={styles.cardTitle}>Nuvens</Text>
+              <Text style={styles.cardValue}>{nuvens}%</Text>
+              <Text style={styles.cardSubtitle}>
+                {parseInt(nuvens) <= 20
+                  ? 'Céu limpo ☀️'
+                  : parseInt(nuvens) <= 60
+                  ? 'Parcial 🌤️'
+                  : 'Nublado ☁️'}
+              </Text>
             </View>
           </View>
+
           <View style={styles.shadowWrapper}>
             <View style={[styles.cardSmall, { minHeight: CARD_SMALL_HEIGHT }]}>
-              <Text style={styles.cardTitle}>Mínima</Text>
-              <Text style={styles.cardValue}>{tempMin}°C</Text>
+              <Text style={styles.cardTitle}>Chuva Amanhã</Text>
+              <Text style={styles.cardValue}>{chuvaAmanha}%</Text>
+              <Text style={styles.cardSubtitle}>
+                {parseInt(chuvaAmanha) > 50 ? 'Alta chance 🌧️' : 'Baixa chance 🌥️'}
+              </Text>
             </View>
           </View>
         </View>
 
-        {/* Amanhã */}
+        {/* Temperatura de Amanhã */}
         <View style={styles.shadowWrapper}>
           <View style={[styles.card, { minHeight: CARD_LARGE_HEIGHT }]}>
-            <Text style={styles.cardTitle}>Amanhã</Text>
+            <Text style={styles.cardTitle}>Temperatura Amanhã</Text>
             <Text style={styles.cardValue}>{tempAmanha}°C</Text>
-            <Text style={styles.cardSubtitle}>Chuva: {chuvaAmanha}%</Text>
           </View>
         </View>
+
       </ScrollView>
     </SafeAreaView>
   );
@@ -155,7 +220,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 20,
     alignItems: 'center',
-    width: Dimensions.get('window').width / 2 - 28,
+    width: screenWidth / 2 - 28,
     justifyContent: 'center',
   },
   cardTitle: {
@@ -173,6 +238,18 @@ const styles = StyleSheet.create({
   cardSubtitle: {
     color: '#ccc',
     fontSize: 14,
-    marginTop: 8,
+    marginTop: 6,
+    textAlign: 'center',
+  },
+  uvBarBackground: {
+    width: '100%',
+    height: 8,
+    backgroundColor: '#333',
+    borderRadius: 10,
+    marginTop: 12,
+  },
+  uvBar: {
+    height: 8,
+    borderRadius: 10,
   },
 });
