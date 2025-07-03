@@ -6,5 +6,6 @@ module.exports = defineConfig([
   expoConfig,
   {
     ignores: ['dist/*'],
+    plugins: ['react-native-reanimated/plugin'],
   },
 ]);
