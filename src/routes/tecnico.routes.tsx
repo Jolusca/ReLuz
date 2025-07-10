@@ -11,7 +11,7 @@ export default function DrawerRoutes_Tecnico(){
         <Drawer.Navigator 
         screenOptions={{
             drawerStyle: {
-            backgroundColor: 'lightblue',
+            backgroundColor: 'rgb(137, 184, 255)',
             }
         }}
         >

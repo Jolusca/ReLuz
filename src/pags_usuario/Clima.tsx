@@ -87,8 +87,10 @@ export default function WeatherScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
-
+      <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>CLIMA ATUAL</Text>
+        </View>
 
         {/* Nível de Geração Solar */}
         <View style={styles.shadowWrapper}>
@@ -169,11 +171,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
     paddingHorizontal: 16,
-    paddingTop: 40,
+    paddingTop: 36,
   },
   header: {
     backgroundColor: '#0A0D10',
-    paddingVertical: 14,
+    paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: 16,
     alignItems: 'center',
@@ -207,14 +209,14 @@ const styles = StyleSheet.create({
     }),
   },
   card: {
-    backgroundColor: '#0A0D10',
+    backgroundColor: '#003',
     borderRadius: 20,
     padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
   cardSmall: {
-    backgroundColor: '#0A0D10',
+    backgroundColor: '#002',
     borderRadius: 20,
     padding: 20,
     alignItems: 'center',

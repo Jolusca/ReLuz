@@ -1,11 +1,9 @@
 import React, { useRef } from 'react';
-import { View, Text, Button, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Button, StyleSheet, SafeAreaView } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../routes/Routex';
-
 import { Video, ResizeMode } from 'expo-av';
-
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -14,37 +12,41 @@ export default function LoginScreen({ navigation }: Props) {
   const videoRef = useRef(null);
 
   return (
-    <View style={styles.container}>
-      {/* 🎥 Vídeo de fundo */}
-      <Video
-        ref={videoRef}
-        source={require('../../assets/videos/placas.mp4')} // 📁 coloque o vídeo em: assets/videos/fundo-login.mp4
-        style={styles.video}
-        resizeMode={ResizeMode.COVER}
-        shouldPlay
-        isLooping
-        isMuted
-      />
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        {/* Vídeo de fundo */}
+        <Video
+          ref={videoRef}
+          source={require('../../assets/videos/placas.mp4')}
+          style={styles.video}
+          resizeMode={ResizeMode.COVER}
+          shouldPlay
+          isLooping
+          isMuted
+        />
 
-      {/* 🔲 Overlay escura */}
-      <View style={styles.overlay} />
+        {/* Overlay escura */}
+        <View style={styles.overlay} />
 
-      {/* Conteúdo do login */}
-      <View style={styles.content}>
-        <Text style={styles.title}>Escolha o tipo de login:</Text>
-        <View style={styles.buttonContainer}>
-          <Button title="Entrar como Técnico" onPress={() => setTipo('tecnico')} />
-          <View style={{ height: 15 }} />
-          <Button title="Entrar como Usuário" onPress={() => setTipo('usuario')} />
+        {/* Conteúdo do login */}
+        <View style={styles.content}>
+          <Text style={styles.title}>Escolha o tipo de login:</Text>
+          <View style={styles.buttonContainer}>
+            <Button title="Entrar como Técnico" onPress={() => setTipo('tecnico')} />
+            <View style={{ height: 15 }} />
+            <Button title="Entrar como Usuário" onPress={() => setTipo('usuario')} />
+          </View>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
-const { width, height } = Dimensions.get('window');
-
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#000', // fundo preto para não mostrar branco em áreas seguras
+  },
   container: {
     flex: 1,
     position: 'relative',
@@ -52,19 +54,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   video: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width,
-    height,
-    zIndex: -2,
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 0,
   },
   overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width,
-    height,
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     zIndex: -1,
   },

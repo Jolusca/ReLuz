@@ -15,20 +15,40 @@ export type RootStackParamList = {
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
+// export default function Routes() {
+//   const { tipo } = useAuth();
+
+//   return (
+    
+//       <Stack.Navigator screenOptions={{ headerShown: false }}>
+//         {!tipo ? (
+//           <Stack.Screen name="Login" component={LoginScreen} />
+//         ) : tipo === 'tecnico' ? (
+//           <Stack.Screen name="Tecnico" component={DrawerRoutes_Tecnico} />
+//         ) : (
+//           <Stack.Screen name="Usuario" component={DrawerRoutes_Usuario} />
+//         )}
+//       </Stack.Navigator>
+   
+//   );
+// }
 export default function Routes() {
   const { tipo } = useAuth();
 
   return (
-    
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {!tipo ? (
-          <Stack.Screen name="Login" component={LoginScreen} />
-        ) : tipo === 'tecnico' ? (
-          <Stack.Screen name="Tecnico" component={DrawerRoutes_Tecnico} />
-        ) : (
-          <Stack.Screen name="Usuario" component={DrawerRoutes_Usuario} />
-        )}
-      </Stack.Navigator>
-   
+    <Stack.Navigator 
+      screenOptions={{ 
+        headerShown: false,
+        // cardStyle: { backgroundColor: 'transparent' }, // evita fundo branco padrão
+      }}>
+      {tipo === 'tecnico' && (
+        <Stack.Screen name="Tecnico" component={DrawerRoutes_Tecnico} />
+      )}
+      {tipo === 'usuario' && (
+        <Stack.Screen name="Usuario" component={DrawerRoutes_Usuario} />
+      )}
+      {!tipo && <Stack.Screen name="Login" component={LoginScreen} />}
+    </Stack.Navigator>
   );
 }
+

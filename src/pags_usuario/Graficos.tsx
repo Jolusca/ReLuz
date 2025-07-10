@@ -67,13 +67,13 @@ const styles = StyleSheet.create({
   },
   */
   header: {
-    backgroundColor: '#0A0D10',
-    paddingVertical: 14,
+    backgroundColor: 'blue',
+    paddingVertical: 25,
     paddingHorizontal: 16,
     borderRadius: 16,
     alignItems: 'center',
     marginBottom: 20,
-    marginTop: 50, // Deixa espaço para o botão do drawer
+    marginTop: 2, // Deixa espaço para o botão do drawer
   },
   headerText: {
     color: '#fff',
