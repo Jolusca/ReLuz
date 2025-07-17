@@ -12,10 +12,7 @@ export default function GraphScreen() {
     <View style={styles.container}>
 
 
-      {/* Título no topo */}
-      <View style={styles.header}>
-        <Text style={styles.headerText}>ACOMPANHAMENTO ENERGÉTICO</Text>
-      </View>
+
 
       {/* Brilho difuso abaixo do gráfico */}
       <View style={styles.shadowWrapper}>
@@ -28,21 +25,7 @@ export default function GraphScreen() {
         </View>
       </View>
 
-      {/* Botões inferiores */}
-      <View style={styles.buttonRow}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('historico' as never)}
-        >
-          <Text style={styles.buttonText}>HISTÓRICO DE GERAÇÃO</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('saude' as never)}
-        >
-          <Text style={styles.buttonText}>SAÚDE DO SISTEMA</Text>
-        </TouchableOpacity>
-      </View>
+
     </View>
   );
 }

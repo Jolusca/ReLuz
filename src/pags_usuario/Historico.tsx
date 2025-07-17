@@ -19,10 +19,8 @@ export default function Historico() {
   const maxY = Math.max(...DATA.map(d => d.y))
   return (
     <View style={styles.container}>
-      {/* Cabeçalho */}
-      <View style={styles.header}>
-        <Text style={styles.headerText}>HISTÓRICO DE GERAÇÃO</Text>
-      </View>
+
+
 
       {/* Gráfico */}
       <View style={styles.chartContainer}>
