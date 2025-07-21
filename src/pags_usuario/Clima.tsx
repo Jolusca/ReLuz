@@ -167,7 +167,7 @@ export default function WeatherScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#947534ff',
+    backgroundColor: '#c79e46ff',
     paddingHorizontal: 16,
     paddingTop: 36,
   },
@@ -197,7 +197,7 @@ shadowWrapper: {
     },
     android: {
       elevation: 20,
-      shadowColor: 'rgba(255, 255, 255, 0.5)', // necessário com novo RN
+      shadowColor: 'rgba(248, 236, 193, 0.5)', // necessário com novo RN
     },
   }),
 },

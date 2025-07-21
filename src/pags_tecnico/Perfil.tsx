@@ -23,7 +23,7 @@ export default function Perfil_Tec() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#049',
+    backgroundColor: '#7729c5ff',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,

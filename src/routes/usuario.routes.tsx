@@ -7,6 +7,7 @@ import GraphScreen from '../pags_usuario/Graficos';
 import Status from '../pags_usuario/Status';
 import WeatherScreen from '../pags_usuario/Clima';
 import Historico from '../pags_usuario/Historico';
+import Perfil from '../pags_usuario/Perfil_usuario';
 
 const Drawer = createDrawerNavigator();
 
@@ -23,7 +24,7 @@ export default function DrawerRoutes_Usuario() {
             fontWeight: 'bold',
             },
             drawerStyle: {
-            backgroundColor: '#c79e46ff',
+            backgroundColor: 'rgba(199, 158, 70, 1)',
             },
             drawerActiveTintColor: '#fff',
             drawerInactiveTintColor: '#ddd',
@@ -45,6 +46,7 @@ export default function DrawerRoutes_Usuario() {
           drawerLabel: 'Status Placas',
         }}
       />
+
       <Drawer.Screen
         name="Radiação Solar"
         component={WeatherScreen}
@@ -59,6 +61,14 @@ export default function DrawerRoutes_Usuario() {
         options={{
           drawerIcon: ({ color, size }) => <Feather name="book-open" color={color} size={size} />,
           drawerLabel: 'Histórico Geral',
+        }}
+      />
+              <Drawer.Screen
+        name="Perfil do Usuário"
+        component={Perfil}
+        options={{
+          drawerIcon: ({ color, size }) => <Feather name="user" color={color} size={size} />,
+          drawerLabel: 'Perfil do Usuário',
         }}
       />
     </Drawer.Navigator>

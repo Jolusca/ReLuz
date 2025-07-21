@@ -76,7 +76,7 @@ export default function Historico() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#111',
+    backgroundColor: '#d49f22ff',
     padding: 10,
     justifyContent: 'center',
     gap: 12,

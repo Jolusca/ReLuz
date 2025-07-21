@@ -23,7 +23,7 @@ export default function Lista_Placa() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#7729c5ff',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,

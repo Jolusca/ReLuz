@@ -33,7 +33,7 @@ export default function GraphScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#d49f22ff',
     paddingHorizontal: 16,
     paddingTop: 40,
     paddingBottom: 16,
