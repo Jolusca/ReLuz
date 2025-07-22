@@ -49,6 +49,7 @@
     "react-native-web": "~0.20.0",
     "react-native-webview": "13.13.5",
     "recharts": "^2.15.3",
+    "swr": "^2.3.4",
     "victory-native": "^41.17.4"
   },
   "devDependencies": {

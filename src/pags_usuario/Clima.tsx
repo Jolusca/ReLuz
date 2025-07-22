@@ -167,16 +167,11 @@ export default function WeatherScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#c79e46ff',
+    backgroundColor: '#c79e46da',
     paddingHorizontal: 16,
     paddingTop: 36,
   },
 
-  headerText: {
-    color: '#0',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -217,7 +212,7 @@ shadowWrapper: {
     justifyContent: 'center',
   },
   cardTitle: {
-    color: '#0',
+    color: '#212832',
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 8,
