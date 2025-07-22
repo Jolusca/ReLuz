@@ -12,10 +12,7 @@ export default function GraphScreen() {
     <View style={styles.container}>
 
 
-      {/* Título no topo */}
-      <View style={styles.header}>
-        <Text style={styles.headerText}>ACOMPANHAMENTO ENERGÉTICO</Text>
-      </View>
+
 
       {/* Brilho difuso abaixo do gráfico */}
       <View style={styles.shadowWrapper}>
@@ -28,21 +25,7 @@ export default function GraphScreen() {
         </View>
       </View>
 
-      {/* Botões inferiores */}
-      <View style={styles.buttonRow}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('historico' as never)}
-        >
-          <Text style={styles.buttonText}>HISTÓRICO DE GERAÇÃO</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('saude' as never)}
-        >
-          <Text style={styles.buttonText}>SAÚDE DO SISTEMA</Text>
-        </TouchableOpacity>
-      </View>
+
     </View>
   );
 }
@@ -50,7 +33,7 @@ export default function GraphScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#d49f22ff',
     paddingHorizontal: 16,
     paddingTop: 40,
     paddingBottom: 16,
@@ -67,13 +50,13 @@ const styles = StyleSheet.create({
   },
   */
   header: {
-    backgroundColor: '#0A0D10',
-    paddingVertical: 14,
+    backgroundColor: 'blue',
+    paddingVertical: 25,
     paddingHorizontal: 16,
     borderRadius: 16,
     alignItems: 'center',
     marginBottom: 20,
-    marginTop: 50, // Deixa espaço para o botão do drawer
+    marginTop: 2, // Deixa espaço para o botão do drawer
   },
   headerText: {
     color: '#fff',

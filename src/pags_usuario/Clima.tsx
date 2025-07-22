@@ -87,7 +87,7 @@ export default function WeatherScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
 
 
         {/* Nível de Geração Solar */}
@@ -167,23 +167,11 @@ export default function WeatherScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#c79e46da',
     paddingHorizontal: 16,
-    paddingTop: 40,
+    paddingTop: 36,
   },
-  header: {
-    backgroundColor: '#0A0D10',
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    borderRadius: 16,
-    alignItems: 'center',
-    marginBottom: 30,
-  },
-  headerText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
+
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -191,30 +179,32 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-  shadowWrapper: {
-    borderRadius: 20,
-    marginBottom: 10,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'rgba(255, 179, 0, 0.6)',
-        shadowOffset: { width: 0, height: 12 },
-        shadowOpacity: 0.6,
-        shadowRadius: 25,
-      },
-      android: {
-        elevation: 15,
-      },
-    }),
-  },
+shadowWrapper: {
+  borderRadius: 20,
+  marginBottom: 16,
+  backgroundColor: 'transparent',
+  ...Platform.select({
+    ios: {
+      shadowColor: 'rgba(248, 236, 193, 0.5)', // dourado claro suave
+      shadowOffset: { width: 0, height: 8 },
+      shadowOpacity: 0.3,
+      shadowRadius: 30, // mais difuso
+    },
+    android: {
+      elevation: 20,
+      shadowColor: 'rgba(248, 236, 193, 0.5)', // necessário com novo RN
+    },
+  }),
+},
   card: {
-    backgroundColor: '#0A0D10',
+    backgroundColor: '#d49f22ff',
     borderRadius: 20,
     padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
   cardSmall: {
-    backgroundColor: '#0A0D10',
+    backgroundColor: '#d49f22ff',
     borderRadius: 20,
     padding: 20,
     alignItems: 'center',
@@ -222,19 +212,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cardTitle: {
-    color: '#fff',
+    color: '#212832',
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 8,
     textAlign: 'center',
   },
   cardValue: {
-    color: '#fff',
+    color: '#0',
     fontSize: 24,
     fontWeight: 'bold',
   },
   cardSubtitle: {
-    color: '#ccc',
+    color: '#212832',
     fontSize: 14,
     marginTop: 6,
     textAlign: 'center',

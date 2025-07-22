@@ -23,7 +23,7 @@ export default function Status() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f30',
+    backgroundColor: '#d49f22ff',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
