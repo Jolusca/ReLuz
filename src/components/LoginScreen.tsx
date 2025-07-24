@@ -7,6 +7,9 @@ import { Video, ResizeMode } from 'expo-av';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
+
+
+
 export default function LoginScreen({ navigation }: Props) {
   const { setTipo } = useAuth();
   const videoRef = useRef(null);
