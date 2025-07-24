@@ -77,7 +77,8 @@ export default function DrawerRoutes_Usuario() {
           drawerLabel: 'Perfil do Usuário',
         }}
       />
-      <Drawer.Screen name="Sair" 
+      <Drawer.Screen 
+        name="Sair" 
         component={LogoutScreen} 
         options={{
             drawerIcon: ({ color, size }) => <Feather name="x" color={color} size={size} />,

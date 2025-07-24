@@ -45,7 +45,7 @@ export default function Historico() {
           >
                 
           {({ points, chartBounds }) => (
-            <>
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
               {points.y.map((point, index) => (
                 <Bar
                   key={index}
@@ -56,7 +56,7 @@ export default function Historico() {
                   barWidth={30}
                 />
               ))}
-            </>
+            </View>
           )}
         </CartesianChart>
       </View>

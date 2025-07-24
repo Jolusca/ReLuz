@@ -1,15 +1,17 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { CartesianChart, useLinePath } from 'victory-native';
+import { CartesianChart, Line, useLinePath } from 'victory-native';
 import { Path } from "@shopify/react-native-skia";
 import { useFont } from "@shopify/react-native-skia";
 
 const DATA = [
-  { x: 'Ter', y: 60, color: '#FF2DCB' },
-  { x: 'Qua', y: 100, color: '#6900FF' },
-  { x: 'Qui', y: 30, color: '#FF2DCB' },
-  { x: 'Sex', y: 70, color: '#FF2DCB' },
-  { x: 'Dom', y: 50, color: '#FF2DCB' },
+  { x: 'Seg', y: 60 },
+  { x: 'Ter', y: 60 },
+  { x: 'Qua', y: 100 },
+  { x: 'Qui', y: 30 },
+  { x: 'Sex', y: 70 },
+  { x: 'Sab', y: 45 },
+  { x: 'Dom', y: 50 }
 ];
 
 export default function GraphScreen() {
@@ -22,11 +24,11 @@ export default function GraphScreen() {
           data={DATA}
           xKey="x"
           yKeys={['y']}
-          domainPadding={{ left: 35, right: 35 }}
+          domainPadding={{ left: 5, right: 13 }}
           domain={{ y: [-5, 105] }}
           xAxis={{
             font,
-            tickCount: 5,
+            tickCount: 8,
             labelColor: "#fff",
           }}
           yAxis={[{
@@ -36,15 +38,14 @@ export default function GraphScreen() {
           }]}
         >
           {({ points }) => {
-            const { path } = useLinePath(points.y); // ← usa os pontos do gráfico
             return (
-              <Path
-                path={path}
-                color="blue"
+              <Line
+                points={points.y}
+                curveType="natural"
+                color="#eeff00ff"
                 strokeWidth={7}
-                style="stroke"
                 strokeJoin="round"
-                strokeCap="round"
+                strokeCap="butt"
               />
             );
           }}
@@ -63,35 +64,35 @@ export default function GraphScreen() {
   );
 }
 
-// 🎨 Estilos
+//  Estilos
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#d49f22ff',
+    backgroundColor: '#000000ff',
     padding: 5,
     justifyContent: 'center',
     gap: 18,
   },
   chartContainer: {
-    backgroundColor: '#013',
+    backgroundColor: '#a07208ff',
     borderRadius: 12,
-    padding: 12,
-    height: 480,
+    padding: 4,
+    height: 460,
     color: 'blue',
-    marginTop: -70
+    marginTop: -50
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    height: 90,
+    height: 100,
     gap: 14,
-    marginTop: 20
+    marginTop: 10
   },
   button: {
     flex: 1,
-    backgroundColor: '#002',
+    backgroundColor: '#a07208ff',
     padding: 16,
-    borderRadius: 12,
+    borderRadius: 5,
     alignItems: 'center',
     justifyContent: 'center',
   },

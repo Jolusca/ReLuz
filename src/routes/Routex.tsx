@@ -6,6 +6,10 @@ import DrawerRoutes_Usuario from './usuario.routes';
 import DrawerRoutes_Tecnico from './tecnico.routes';
 import { useAuth } from '../context/AuthContext';
 
+
+
+// Ajuda o TypeScript a te dar autocompletar e verificação de 
+// tipos ao navegar entre telas, evitando erros como passar parâmetros errados.
 export type RootStackParamList = {
   Login: undefined;
   Tecnico: undefined;
@@ -22,13 +26,17 @@ export default function Routes() {
       screenOptions={{ 
         headerShown: false
       }}>
+
       {tipo === 'tecnico' && (
         <Stack.Screen name="Tecnico" component={DrawerRoutes_Tecnico} />
       )}
+
       {tipo === 'usuario' && (
         <Stack.Screen name="Usuario" component={DrawerRoutes_Usuario} />
       )}
+      
       {!tipo && <Stack.Screen name="Login" component={LoginScreen} />}
+
     </Stack.Navigator>
   );
 }

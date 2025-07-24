@@ -9,13 +9,7 @@ export default function Status() {
       <Text style={styles.title}>Status da Placa</Text>
       <Text style={styles.subtitle}>Escolha uma opção abaixo para continuar:</Text>
 
-      {/* <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Entrar como Usuário</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={[styles.button, styles.secondaryButton]}>
-        <Text style={styles.buttonText}>Entrar como Técnico</Text>
-      </TouchableOpacity> */}
+     
     </View>
   );
 }
