@@ -1,125 +1,102 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Platform } from 'react-native';
-import { useNavigation } from 'expo-router';
-// import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { CartesianChart, useLinePath } from 'victory-native';
+import { Path } from "@shopify/react-native-skia";
+import { useFont } from "@shopify/react-native-skia";
 
-const screenWidth = Dimensions.get('window').width;
+const DATA = [
+  { x: 'Ter', y: 60, color: '#FF2DCB' },
+  { x: 'Qua', y: 100, color: '#6900FF' },
+  { x: 'Qui', y: 30, color: '#FF2DCB' },
+  { x: 'Sex', y: 70, color: '#FF2DCB' },
+  { x: 'Dom', y: 50, color: '#FF2DCB' },
+];
 
 export default function GraphScreen() {
-  const navigation = useNavigation();
+  const font = useFont(require("../../assets/fonts/Justus-Bold.ttf"), 12);
 
   return (
     <View style={styles.container}>
-
-
-
-
-      {/* Brilho difuso abaixo do gráfico */}
-      <View style={styles.shadowWrapper}>
-        <View style={styles.graphContainer}>
-          <Text style={styles.graphTitle}> Geração de Energia</Text>
-          <View style={styles.graphBox}>
-            <Text style={styles.graphPlaceholder}>[ Gráfico Aqui ]</Text>
-          </View>
-          <Text style={styles.graphSubtitle}>Geração de energia dos últimos 7 dias</Text>
-        </View>
+      <View style={styles.chartContainer}>
+        <CartesianChart
+          data={DATA}
+          xKey="x"
+          yKeys={['y']}
+          domainPadding={{ left: 35, right: 35 }}
+          domain={{ y: [-5, 105] }}
+          xAxis={{
+            font,
+            tickCount: 5,
+            labelColor: "#fff",
+          }}
+          yAxis={[{
+            yKeys: ["y"],
+            font,
+            labelColor: "#ccc",
+          }]}
+        >
+          {({ points }) => {
+            const { path } = useLinePath(points.y); // ← usa os pontos do gráfico
+            return (
+              <Path
+                path={path}
+                color="blue"
+                strokeWidth={7}
+                style="stroke"
+                strokeJoin="round"
+                strokeCap="round"
+              />
+            );
+          }}
+        </CartesianChart>
       </View>
 
-
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>HISTÓRICO DE GERAÇÃO</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>SAÚDE DO SISTEMA</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 
+// 🎨 Estilos
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#d49f22ff',
-    paddingHorizontal: 16,
-    paddingTop: 40,
-    paddingBottom: 16,
-  },
-  /*
-  drawerButton: {
-    position: 'absolute',
-    top: 40,
-    left: 16,
-    zIndex: 10,
-    backgroundColor: '#1c1c1c',
-    padding: 10,
-    borderRadius: 10,
-  },
-  */
-  header: {
-    backgroundColor: 'blue',
-    paddingVertical: 25,
-    paddingHorizontal: 16,
-    borderRadius: 16,
-    alignItems: 'center',
-    marginBottom: 20,
-    marginTop: 2, // Deixa espaço para o botão do drawer
-  },
-  headerText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  shadowWrapper: {
-    marginBottom: 60,
-    borderRadius: 20,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'rgba(255, 179, 0, 0.8)',
-        shadowOffset: { width: 0, height: 20 },
-        shadowOpacity: 0.7,
-        shadowRadius: 30,
-      },
-      android: {
-        elevation: 15,
-      },
-    }),
-  },
-  graphContainer: {
-    backgroundColor: '#0A0D10',
-    borderRadius: 20,
-    padding: 16,
-  },
-  graphTitle: {
-    color: '#fff',
-    fontSize: 18,
-    marginBottom: 10,
-  },
-  graphBox: {
-    height: 200,
-    backgroundColor: '#222',
-    borderRadius: 10,
+    padding: 5,
     justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 10,
+    gap: 18,
   },
-  graphPlaceholder: {
-    color: '#aaa',
+  chartContainer: {
+    backgroundColor: '#013',
+    borderRadius: 12,
+    padding: 12,
+    height: 480,
+    color: 'blue',
+    marginTop: -70
   },
-  graphSubtitle: {
-    color: '#ccc',
-    fontSize: 14,
-    textAlign: 'center',
-  },
-  buttonRow: {
+  footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    height: 90,
+    gap: 14,
+    marginTop: 20
   },
   button: {
-    backgroundColor: '#0A0D10',
-    borderRadius: 14,
-    paddingVertical: 20,
     flex: 1,
-    marginHorizontal: 5,
-    justifyContent: 'center',
+    backgroundColor: '#002',
+    padding: 16,
+    borderRadius: 12,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonText: {
     color: '#fff',
-    fontWeight: 'bold',
     fontSize: 12,
     textAlign: 'center',
   },
