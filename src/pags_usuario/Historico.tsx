@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { CartesianChart, Bar } from 'victory-native';
-import { useFont } from "@shopify/react-native-skia";
+import { useFont} from "@shopify/react-native-skia";
+
 
 
 
@@ -17,6 +18,7 @@ const DATA = [
 export default function Historico() {
   const font = useFont(require("../../assets/fonts/Justus-Bold.ttf"), 12);
   const maxY = Math.max(...DATA.map(d => d.y))
+  
   return (
     <View style={styles.container}>
 
@@ -28,8 +30,8 @@ export default function Historico() {
           data={DATA}
           xKey="x"
           yKeys={['y']}
-          domainPadding={{ left: 18, right: 18 }}
-          domain={{y: [-10, 105]}}
+          domainPadding={{ left: 35, right: 35 }}
+          domain={{y: [-5, 105]}}
           xAxis={{
             font, 
             tickCount: 5,
@@ -43,7 +45,7 @@ export default function Historico() {
           >
                 
           {({ points, chartBounds }) => (
-            <>
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
               {points.y.map((point, index) => (
                 <Bar
                   key={index}
@@ -51,10 +53,10 @@ export default function Historico() {
                   chartBounds={chartBounds}
                   color={DATA[index].y === maxY ? "#9400D3" : "#FF1493"} // Destaca o maior valor em dourado
                   roundedCorners={{ topLeft: 7, topRight: 7 }}
-                  barWidth={35}
+                  barWidth={30}
                 />
               ))}
-            </>
+            </View>
           )}
         </CartesianChart>
       </View>
@@ -77,9 +79,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#d49f22ff',
-    padding: 10,
+    padding: 5,
     justifyContent: 'center',
-    gap: 12,
+    gap: 18,
   },
   header: {
     backgroundColor: '#005',
@@ -95,17 +97,19 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     backgroundColor: '#013',
-    borderRadius: 20,
-    padding: 6,
-    height: 430,
-    color: 'blue'
+    borderRadius: 12,
+    padding: 12,
+    height: 480,
+    color: 'blue',
+    marginTop: -70
     
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     height: 90,
-    gap: 8,
+    gap: 14,
+    marginTop: 20
     
   },
   button: {

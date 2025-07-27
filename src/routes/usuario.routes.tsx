@@ -8,10 +8,16 @@ import Status from '../pags_usuario/Status';
 import WeatherScreen from '../pags_usuario/Clima';
 import Historico from '../pags_usuario/Historico';
 import Perfil from '../pags_usuario/Perfil_usuario';
+import { useAuth } from '../context/AuthContext';
+import LogoutScreen from '../components/LogoutScreen';
 
 const Drawer = createDrawerNavigator();
 
 export default function DrawerRoutes_Usuario() {
+  const { setTipo } = useAuth();
+  
+  const { tipo } = useAuth();
+  
   return (
         <Drawer.Navigator
         screenOptions={{
@@ -63,7 +69,7 @@ export default function DrawerRoutes_Usuario() {
           drawerLabel: 'Histórico Geral',
         }}
       />
-              <Drawer.Screen
+      <Drawer.Screen
         name="Perfil do Usuário"
         component={Perfil}
         options={{
@@ -71,6 +77,15 @@ export default function DrawerRoutes_Usuario() {
           drawerLabel: 'Perfil do Usuário',
         }}
       />
+      <Drawer.Screen 
+        name="Sair" 
+        component={LogoutScreen} 
+        options={{
+            drawerIcon: ({ color, size }) => <Feather name="x" color={color} size={size} />,
+            drawerLabel: 'Retornar ao Login',
+        }}
+      />
+
     </Drawer.Navigator>
   );
 }

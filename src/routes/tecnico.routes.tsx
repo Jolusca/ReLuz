@@ -4,6 +4,7 @@ import { Feather } from '@expo/vector-icons';
 
 import Lista_Placa from '../pags_tecnico/Lista_Placas';
 import Perfil_Tec from '../pags_tecnico/Perfil';
+import LogoutScreen from '../components/LogoutScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -44,6 +45,14 @@ export default function DrawerRoutes_Tecnico() {
             <Feather name="user" color={color} size={size} />
           ),
           drawerLabel: 'Perfil do Técnico',
+        }}
+      />
+      <Drawer.Screen 
+        name="Sair" 
+        component={LogoutScreen} 
+        options={{
+            drawerIcon: ({ color, size }) => <Feather name="x" color={color} size={size} />,
+            drawerLabel: 'Retornar ao Login',
         }}
       />
     </Drawer.Navigator>
