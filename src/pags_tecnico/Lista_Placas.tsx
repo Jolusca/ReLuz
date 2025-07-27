@@ -88,35 +88,37 @@ export default function Lista_Placa() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#7729c5ff',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: '#f2eaff', // lilás claro
     padding: 20,
     paddingTop: 60,
+    alignItems: 'center',
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#F5F5F5',
+    color: '#3e246b', // roxo escuro
     marginBottom: 10,
+    textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
-    color: '#CCC',
+    color: '#7c6fa3', // roxo médio
     marginBottom: 40,
     textAlign: 'center',
   },
   button: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#4CAF50', // verde padrão para "ativo"
     paddingVertical: 14,
     paddingHorizontal: 32,
-    borderRadius: 10,
+    borderRadius: 12,
     marginBottom: 15,
     width: '80%',
     alignItems: 'center',
+    shadowColor: 'rgba(128, 64, 192, 0.3)',
+    elevation: 4,
   },
   secondaryButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#2196F3', // azul para "manutenção"
   },
   buttonText: {
     color: '#FFF',
@@ -124,22 +126,26 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   panelCard: {
-    backgroundColor: '#4a185f',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 12,
+    backgroundColor: '#a187c9ff', // roxo claro (cards)
+    padding: 20,
+    borderRadius: 16,
+    marginBottom: 16,
+    shadowColor: 'rgba(128, 64, 192, 0.3)',
+    elevation: 4,
   },
   panelName: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#3e246b', // roxo escuro
+    marginBottom: 4,
   },
   panelLocation: {
     fontSize: 14,
-    color: '#ddd',
+    color: '#7c6fa3', // roxo médio
   },
   panelDate: {
     fontSize: 12,
-    color: '#bbb',
+    color: '#9f91bd', // roxo ainda mais claro
+    marginTop: 4,
   },
 });

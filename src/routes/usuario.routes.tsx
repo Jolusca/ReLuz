@@ -6,7 +6,6 @@ import { useNavigation } from '@react-navigation/native';
 import GraphScreen from '../pags_usuario/Graficos';
 import Status from '../pags_usuario/Status';
 import WeatherScreen from '../pags_usuario/Clima';
-import Historico from '../pags_usuario/Historico';
 import Perfil from '../pags_usuario/Perfil_usuario';
 import { useAuth } from '../context/AuthContext';
 import LogoutScreen from '../components/LogoutScreen';
@@ -22,18 +21,18 @@ export default function DrawerRoutes_Usuario() {
         <Drawer.Navigator
         screenOptions={{
             headerStyle: {
-            backgroundColor: '#c79e46ff',
+            backgroundColor: '#fae483ff',
             height: 80,
             },
-            headerTintColor: '#fff',
+            headerTintColor: '#5D4A20',
             headerTitleStyle: {
             fontWeight: 'bold',
             },
             drawerStyle: {
-            backgroundColor: 'rgba(199, 158, 70, 1)',
+            backgroundColor: '#fae483ff',
             },
-            drawerActiveTintColor: '#fff',
-            drawerInactiveTintColor: '#ddd',
+            drawerActiveTintColor: '#5D4A20',
+            drawerInactiveTintColor: '#5D4A20',
         }}
         >
       <Drawer.Screen
@@ -61,14 +60,7 @@ export default function DrawerRoutes_Usuario() {
           drawerLabel: 'Radiação Solar',
         }}
       />
-      <Drawer.Screen
-        name="Histórico Geral"
-        component={Historico}
-        options={{
-          drawerIcon: ({ color, size }) => <Feather name="book-open" color={color} size={size} />,
-          drawerLabel: 'Histórico Geral',
-        }}
-      />
+
       <Drawer.Screen
         name="Perfil do Usuário"
         component={Perfil}

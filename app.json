@@ -4,7 +4,7 @@
     "slug": "reluz",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/icone.jpg",
     "scheme": "reluz",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,

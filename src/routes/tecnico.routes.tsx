@@ -13,7 +13,7 @@ export default function DrawerRoutes_Tecnico() {
     <Drawer.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#5a0294ff',
+          backgroundColor: '#a187c9ff',
           height: 80,
         },
         headerTintColor: '#fff',
@@ -21,7 +21,7 @@ export default function DrawerRoutes_Tecnico() {
           fontWeight: 'bold',
         },
         drawerStyle: {
-          backgroundColor: '#5a0294ff',
+          backgroundColor: '#a187c9ff',
         },
         drawerActiveTintColor: '#fff',
         drawerInactiveTintColor: '#ddd',

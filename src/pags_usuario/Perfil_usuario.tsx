@@ -12,7 +12,6 @@ import {
 const { width: screenWidth } = Dimensions.get('window');
 
 export default function Perfil_Cliente() {
-  // Exemplo fixo para demo, substitua pelo dado real da API/Firebase
   const dataCriacao = '2025-01-05T10:30:00Z';
 
   const dataFormatada = useMemo(() => {
@@ -29,9 +28,7 @@ export default function Perfil_Cliente() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
-
-
+      <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.shadowWrapper}>
           <View style={styles.card}>
             <Text style={styles.cardTitle}>Nome</Text>
@@ -71,55 +68,59 @@ export default function Perfil_Cliente() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#c79e46da',
-    paddingHorizontal: 16,
+    backgroundColor: '#f2eaff', // fundo off-white puxado para lilás claro
     paddingTop: 36,
+    padding: 16,
   },
-  header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#fff',
-    marginBottom: 20,
-    textAlign: 'center',
+
+  scrollContent: {
+    paddingTop: 24,
+    paddingBottom: 32,
   },
-shadowWrapper: {
-  borderRadius: 20,
-  marginBottom: 16,
-  backgroundColor: 'transparent',
-  ...Platform.select({
-    ios: {
-      shadowColor: 'rgba(248, 236, 193, 0.5)', // dourado claro suave
-      shadowOffset: { width: 0, height: 8 },
-      shadowOpacity: 0.3,
-      shadowRadius: 30, // mais difuso
-    },
-    android: {
-      elevation: 20,
-      shadowColor: 'rgba(248, 236, 193, 0.5)', // necessário com novo RN
-    },
-  }),
-},
-  card: {
-    backgroundColor: '#d49f22ff', // MediumPurple
+
+  shadowWrapper: {
     borderRadius: 20,
-    padding: 20,
+    marginBottom: 16,
+    backgroundColor: 'transparent',
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(128, 64, 192, 0.3)', // sombra roxa suave
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.25,
+        shadowRadius: 25,
+      },
+      android: {
+        elevation: 20,
+        shadowColor: 'rgba(128, 64, 192, 0.3)',
+      },
+    }),
+  },
+
+  card: {
+    backgroundColor: '#a187c9ff', // fundo roxo claro
+    borderRadius: 20,
+    paddingVertical: 24,
+    paddingHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   cardTitle: {
-    color: '#212832',
+    color: '#3e246b', // roxo escuro
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 8,
     textAlign: 'center',
   },
+
   cardValue: {
-    color: '#0',
+    color: '#3e246b', // roxo escuro
     fontSize: 24,
     fontWeight: 'bold',
   },
+
   cardSubtitle: {
-    color: '#212832',
+    color: '#7c6fa3', // roxo médio
     fontSize: 14,
     marginTop: 6,
     textAlign: 'center',

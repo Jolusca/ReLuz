@@ -164,10 +164,12 @@ export default function WeatherScreen() {
   );
 }
 
+// ...imports mantidos
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#c79e46da',
+    backgroundColor: '#fffcece1', // fundo off-white amarelado
     paddingHorizontal: 16,
     paddingTop: 36,
   },
@@ -179,65 +181,74 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-shadowWrapper: {
-  borderRadius: 20,
-  marginBottom: 16,
-  backgroundColor: 'transparent',
-  ...Platform.select({
-    ios: {
-      shadowColor: 'rgba(248, 236, 193, 0.5)', // dourado claro suave
-      shadowOffset: { width: 0, height: 8 },
-      shadowOpacity: 0.3,
-      shadowRadius: 30, // mais difuso
-    },
-    android: {
-      elevation: 20,
-      shadowColor: 'rgba(248, 236, 193, 0.5)', // necessário com novo RN
-    },
-  }),
-},
+
+  shadowWrapper: {
+    borderRadius: 20,
+    marginBottom: 16,
+    backgroundColor: 'transparent',
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(212, 160, 34, 0.3)', // sombra dourada leve
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: 0.25,
+        shadowRadius: 25,
+      },
+      android: {
+        elevation: 20,
+        shadowColor: 'rgba(212, 160, 34, 0.3)', // sombra compatível no Android
+      },
+    }),
+  },
+
   card: {
-    backgroundColor: '#d49f22ff',
+    backgroundColor: '#fae483ff', // fundo amarelo bem claro puxado para dourado
     borderRadius: 20,
     padding: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
+
   cardSmall: {
-    backgroundColor: '#d49f22ff',
+    backgroundColor: '#fae483ff',
     borderRadius: 20,
     padding: 20,
     alignItems: 'center',
     width: screenWidth / 2 - 28,
     justifyContent: 'center',
   },
+
   cardTitle: {
-    color: '#212832',
+    color: '#5D4A20', // marrom escuro
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 8,
     textAlign: 'center',
   },
+
   cardValue: {
-    color: '#0',
+    color: '#5D4A20', // mesmo marrom escuro
     fontSize: 24,
     fontWeight: 'bold',
   },
+
   cardSubtitle: {
-    color: '#212832',
+    color: '#8A7C5A', // marrom claro
     fontSize: 14,
     marginTop: 6,
     textAlign: 'center',
   },
+
   uvBarBackground: {
     width: '100%',
     height: 8,
-    backgroundColor: '#333',
+    backgroundColor: 'rgba(93, 74, 32, 0.2)', // marrom transparente
     borderRadius: 10,
     marginTop: 12,
   },
+
   uvBar: {
     height: 8,
     borderRadius: 10,
   },
 });
+

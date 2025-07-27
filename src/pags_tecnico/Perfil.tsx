@@ -70,14 +70,14 @@ export default function Perfil_Tec() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#7729c5ff', // Roxo complementar
+    backgroundColor: '#f2eaff', // Fundo claro lilás
     paddingHorizontal: 16,
     paddingTop: 36,
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#fff',
+    color: '#3e246b', // Roxo escuro
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -87,38 +87,39 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     ...Platform.select({
       ios: {
-        shadowColor: '#4a185f',
+        shadowColor: 'rgba(128, 64, 192, 0.3)',
         shadowOffset: { width: 0, height: 8 },
-        shadowOpacity: 0.3,
-        shadowRadius: 30,
+        shadowOpacity: 0.25,
+        shadowRadius: 25,
       },
       android: {
         elevation: 20,
-        shadowColor: 'rgba(200, 170, 255, 0.4)',
+        shadowColor: 'rgba(128, 64, 192, 0.3)',
       },
     }),
   },
   card: {
-    backgroundColor: '#5a0294ff', // MediumPurple
+    backgroundColor: '#a187c9ff', // Roxo claro
     borderRadius: 20,
-    padding: 20,
+    paddingVertical: 24,
+    paddingHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
   cardTitle: {
-    color: '#f5eaff',
+    color: '#3e246b', // Roxo escuro
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 8,
     textAlign: 'center',
   },
   cardValue: {
-    color: '#fff',
+    color: '#3e246b', // Roxo escuro
     fontSize: 24,
     fontWeight: 'bold',
   },
   cardSubtitle: {
-    color: '#dcd0ff',
+    color: '#403953ff', // Roxo médio
     fontSize: 14,
     marginTop: 6,
     textAlign: 'center',
