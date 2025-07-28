@@ -1,21 +1,51 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   SafeAreaView,
   ScrollView,
-  Dimensions,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 
-const { width: screenWidth } = Dimensions.get('window');
+import { ref, onValue } from 'firebase/database';
+import { db } from '../firebase'; // ajuste o caminho conforme seu projeto
 
 export default function Perfil_Tec() {
-  const dataCriacao = '2025-01-06T11:00:00Z';
+  const [userData, setUserData] = useState<{
+    name?: string;
+    email?: string;
+    role?: string;
+    created_at?: string;
+  } | null>(null);
+
+  const [loading, setLoading] = useState(true);
+
+  const userId = "userId_2";
+
+  useEffect(() => {
+    const userRef = ref(db, `users/${userId}`);
+    const unsubscribe = onValue(userRef, (snapshot) => {
+      if (snapshot.exists()) {
+        setUserData(snapshot.val());
+      } else {
+        setUserData(null);
+      }
+      setLoading(false);
+    }, (error) => {
+      console.error("Erro ao buscar dados do usuário:", error);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [userId]);
 
   const dataFormatada = useMemo(() => {
-    return new Date(dataCriacao).toLocaleString('pt-BR', {
+    if (!userData?.created_at) return "";
+    const d = new Date(userData.created_at);
+    if (isNaN(d.getTime())) return "";
+    return d.toLocaleString('pt-BR', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric',
@@ -24,17 +54,33 @@ export default function Perfil_Tec() {
       timeZone: 'America/Sao_Paulo',
       hour12: false,
     });
-  }, [dataCriacao]);
+  }, [userData?.created_at]);
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#8040c0" />
+        <Text style={{ marginTop: 12, color: '#3e246b' }}>Carregando dados do técnico...</Text>
+      </View>
+    );
+  }
+
+  if (!userData) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={{ color: '#3e246b', fontSize: 18 }}>Técnico não encontrado.</Text>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
-        <Text style={styles.header}>Perfil do Técnico</Text>
 
         <View style={styles.shadowWrapper}>
           <View style={styles.card}>
             <Text style={styles.cardTitle}>Nome</Text>
-            <Text style={styles.cardValue}>Maria Técnica</Text>
+            <Text style={styles.cardValue}>{userData.name || '-'}</Text>
             <Text style={styles.cardSubtitle}>Nome completo do técnico</Text>
           </View>
         </View>
@@ -42,7 +88,7 @@ export default function Perfil_Tec() {
         <View style={styles.shadowWrapper}>
           <View style={styles.card}>
             <Text style={styles.cardTitle}>Email</Text>
-            <Text style={styles.cardValue}>maria@solar.com</Text>
+            <Text style={styles.cardValue}>{userData.email || '-'}</Text>
             <Text style={styles.cardSubtitle}>Endereço de e-mail</Text>
           </View>
         </View>
@@ -50,7 +96,7 @@ export default function Perfil_Tec() {
         <View style={styles.shadowWrapper}>
           <View style={styles.card}>
             <Text style={styles.cardTitle}>Função</Text>
-            <Text style={styles.cardValue}>technician</Text>
+            <Text style={styles.cardValue}>{userData.role || '-'}</Text>
             <Text style={styles.cardSubtitle}>Tipo de usuário no sistema</Text>
           </View>
         </View>
@@ -58,7 +104,7 @@ export default function Perfil_Tec() {
         <View style={styles.shadowWrapper}>
           <View style={styles.card}>
             <Text style={styles.cardTitle}>Criado em</Text>
-            <Text style={styles.cardValue}>{dataFormatada}</Text>
+            <Text style={styles.cardValue}>{dataFormatada || '-'}</Text>
             <Text style={styles.cardSubtitle}>Data de criação da conta</Text>
           </View>
         </View>
@@ -70,14 +116,14 @@ export default function Perfil_Tec() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f2eaff', // Fundo claro lilás
+    backgroundColor: '#f2eaff',
     paddingHorizontal: 16,
     paddingTop: 36,
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#3e246b', // Roxo escuro
+    color: '#3e246b',
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -99,7 +145,7 @@ const styles = StyleSheet.create({
     }),
   },
   card: {
-    backgroundColor: '#a187c9ff', // Roxo claro
+    backgroundColor: '#a187c9ff',
     borderRadius: 20,
     paddingVertical: 24,
     paddingHorizontal: 20,
@@ -107,21 +153,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cardTitle: {
-    color: '#3e246b', // Roxo escuro
+    color: '#3e246b',
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 8,
     textAlign: 'center',
   },
   cardValue: {
-    color: '#3e246b', // Roxo escuro
+    color: '#3e246b',
     fontSize: 24,
     fontWeight: 'bold',
   },
   cardSubtitle: {
-    color: '#403953ff', // Roxo médio
+    color: '#403953ff',
     fontSize: 14,
     marginTop: 6,
     textAlign: 'center',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f2eaff',
   },
 });

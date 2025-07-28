@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,10 +7,13 @@ import {
   TouchableOpacity,
   Modal,
   Pressable,
+  SafeAreaView,
 } from 'react-native';
-import { Wrench, Check, X } from 'lucide-react-native';
+import { Wrench, Check, X, RefreshCcw } from 'lucide-react-native';
+import { ref, get, update } from 'firebase/database';
+import { db } from '../firebase'; // importe seu db do firebase.ts
 
-type Status = 'Ativa' | 'Manutenção' | 'Inativa';
+type Status = 'Ativa' | 'Manutenção';
 
 interface Placa {
   id: string;
@@ -19,17 +22,17 @@ interface Placa {
   status: Status;
 }
 
-const dadosPlacas: Placa[] = [
-  { id: '1', nome: 'Placa Solar A', local: 'Telhado Norte', status: 'Ativa' },
-  { id: '2', nome: 'Placa Solar B', local: 'Galpão', status: 'Manutenção' },
-  { id: '3', nome: 'Placa Solar C', local: 'Campo Leste', status: 'Inativa' },
-];
-
 const corStatus: Record<Status, string> = {
   Ativa: '#4CAF50',
-  Manutenção: '#FFEB3B',
-  Inativa: '#F44336',
+  Manutenção: '#F44336',
 };
+
+const painelIds = ['Painel_1', 'Painel_2', 'Painel_3'];
+
+function mapStatus(statusBool: boolean | null | undefined): Status {
+  if (statusBool === true) return 'Ativa';
+  return 'Manutenção';
+}
 
 export default function TelaResumoPlacas() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -37,6 +40,56 @@ export default function TelaResumoPlacas() {
 
   const [modalFeedbackVisible, setModalFeedbackVisible] = useState(false);
   const [feedbackMensagem, setFeedbackMensagem] = useState('');
+
+  const [placas, setPlacas] = useState<Placa[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchPlacas = async () => {
+    setLoading(true);
+    try {
+      const placasFetched: Placa[] = [];
+
+      for (const id of painelIds) {
+        const snapshot = await get(ref(db, `panels/${id}`));
+        const locationSnap = await get(ref(db, `panels/${id}/location`));
+
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          const location = locationSnap.exists() ? locationSnap.val() : 'Local desconhecido';
+
+          placasFetched.push({
+            id: id.replace('Painel_', ''), // só número no id
+            nome: data.nome ?? id,
+            local: location,
+            status: mapStatus(data.status),
+          });
+        } else {
+          placasFetched.push({
+            id: id.replace('Painel_', ''),
+            nome: id,
+            local: 'Local desconhecido',
+            status: 'Manutenção',
+          });
+        }
+      }
+      setPlacas(placasFetched);
+    } catch (error) {
+      console.error('Erro ao buscar dados dos painéis:', error);
+      setPlacas(
+        painelIds.map((id) => ({
+          id: id.replace('Painel_', ''),
+          nome: id,
+          local: 'Local desconhecido',
+          status: 'Manutenção',
+        }))
+      );
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchPlacas();
+  }, []);
 
   const abrirModal = (placa: Placa) => {
     setPlacaSelecionada(placa);
@@ -58,17 +111,54 @@ export default function TelaResumoPlacas() {
     fecharModal();
   };
 
-  const confirmarProblema = () => {
-    const nome = placaSelecionada?.nome ?? 'placa';
-    mostrarFeedback(`Problema informado para: ${nome}`);
+  const confirmarProblema = async () => {
+    if (!placaSelecionada) return;
+
+    try {
+      const painelPath = `panels/Painel_${placaSelecionada.id}`;
+
+      // Buscar status atual
+      const statusSnap = await get(ref(db, `${painelPath}/status`));
+      const statusAtual = statusSnap.exists() ? statusSnap.val() : false;
+
+      // Inverter o status
+      const novoStatus = !statusAtual;
+
+      // Atualizar no Firebase
+      await update(ref(db, painelPath), { status: novoStatus });
+
+      mostrarFeedback(`Status da placa "${placaSelecionada.nome}" atualizado para ${novoStatus ? 'Ativa' : 'Manutenção'}`);
+
+      // Recarregar os dados para atualizar a lista
+      fetchPlacas();
+
+    } catch (error) {
+      console.error('Erro ao atualizar status:', error);
+      mostrarFeedback('Erro ao atualizar status. Tente novamente.');
+    }
+
     fecharModal();
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      {/* Botão Atualizar */}
+      <View style={styles.topBar}>
+        <Text style={styles.title}>Atualizar Dados</Text>
+        <TouchableOpacity
+          onPress={fetchPlacas}
+          style={styles.refreshButton}
+          accessibilityLabel="Atualizar dados dos painéis"
+        >
+          <RefreshCcw color="#5D4A20" size={24} />
+        </TouchableOpacity>
+      </View>
+
       <FlatList
-        data={dadosPlacas}
+        data={placas}
         keyExtractor={(item) => item.id}
+        refreshing={loading}
+        onRefresh={fetchPlacas}
         renderItem={({ item }) => (
           <View style={styles.card}>
             <View style={styles.cardHeader}>
@@ -107,7 +197,9 @@ export default function TelaResumoPlacas() {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>
-              Deseja informar problema na placa solar{' '}
+              {placaSelecionada?.status === 'Ativa'
+                ? `Deseja informar um problema na placa solar `
+                : `Deseja cancelar o pedido de manutenção na placa solar `}
               <Text style={{ fontWeight: 'bold' }}>
                 "{placaSelecionada?.nome}"
               </Text>
@@ -154,7 +246,7 @@ export default function TelaResumoPlacas() {
           </View>
         </View>
       </Modal>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -163,7 +255,23 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fffcece1',
     paddingTop: 36,
-    padding: 16,
+    paddingHorizontal: 16,
+  },
+  topBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: '#5D4A20',
+  },
+  refreshButton: {
+    padding: 8,
+    borderRadius: 20,
+    backgroundColor: 'rgba(212, 160, 34, 0.2)',
   },
   card: {
     backgroundColor: '#fae483ff',

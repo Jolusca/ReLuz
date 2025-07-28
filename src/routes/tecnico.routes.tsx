@@ -3,6 +3,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Feather } from '@expo/vector-icons';
 
 import Lista_Placa from '../pags_tecnico/Lista_Placas';
+import Lista_User from '../pags_tecnico/Lista_Users';
 import Perfil_Tec from '../pags_tecnico/Perfil';
 import LogoutScreen from '../components/LogoutScreen';
 
@@ -37,6 +38,16 @@ export default function DrawerRoutes_Tecnico() {
           drawerLabel: 'Lista de Placas',
         }}
       />
+            <Drawer.Screen
+        name="Lista de usuários"
+        component={Lista_User}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <Feather name="list" color={color} size={size} />
+          ),
+          drawerLabel: 'Lista de Usuários',
+        }}
+      />
       <Drawer.Screen
         name="Perfil do Técnico"
         component={Perfil_Tec}
@@ -51,7 +62,7 @@ export default function DrawerRoutes_Tecnico() {
         name="Sair" 
         component={LogoutScreen} 
         options={{
-            drawerIcon: ({ color, size }) => <Feather name="x" color={color} size={size} />,
+            drawerIcon: ({ color, size }) => <Feather name="log-out" color={color} size={size} />,
             drawerLabel: 'Retornar ao Login',
         }}
       />

@@ -73,7 +73,7 @@ export default function DrawerRoutes_Usuario() {
         name="Sair" 
         component={LogoutScreen} 
         options={{
-            drawerIcon: ({ color, size }) => <Feather name="x" color={color} size={size} />,
+            drawerIcon: ({ color, size }) => <Feather name="log-out" color={color} size={size} />,
             drawerLabel: 'Retornar ao Login',
         }}
       />
