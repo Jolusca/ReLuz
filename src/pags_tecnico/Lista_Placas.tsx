@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import { get, ref, update } from 'firebase/database';
+import { Check, RefreshCcw, Wrench, X } from 'lucide-react-native';
+import React, { useEffect, useState } from 'react';
 import {
-  View,
-  Text,
   FlatList,
-  StyleSheet,
-  TouchableOpacity,
   Modal,
   Pressable,
   SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { Wrench, Check, X, RefreshCcw } from 'lucide-react-native';
-import { ref, get, update } from 'firebase/database';
 import { db } from '../firebase';
 
 type Status = 'Ativa' | 'Manutenção';

@@ -1,8 +1,8 @@
 import React from 'react';
-import Routes from '../routes/Routex';
 import { AuthProvider } from '../context/AuthContext';
+import Routes from '../routes/Routex';
 
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Platform } from 'react-native';
+import { View } from 'react-native';
 
 // export default function App() {
 //   return (
